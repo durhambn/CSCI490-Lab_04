@@ -1,8 +1,6 @@
 package com.introtoandroid.lab4;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -12,21 +10,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class AT extends AsyncTask<String, Void, String> {
+    TextView mytext;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        TextView text = findViewById(R.id.textView);
-        AT myTask = new AT(text);
-
+    public AT(TextView mytext) {
+        this.mytext = mytext;
     }
 
-   /* public void myMethod(String input){
+    @Override
+    protected String doInBackground(String... strings) {
         URL url = null;
         try {
-            url = new URL(input);
+            url = new URL(strings[0]);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -56,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         int i = 0;
-        while(i < 20) {
+        while (i < 20) {
             try {
                 line += bufferedReader.readLine();
             } catch (IOException e) {
@@ -64,5 +59,14 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
-    }*/
+
+    return line;
+}
+
+    @Override
+    protected void onPostExecute(String o) {
+        super.onPostExecute(o);
+        String text = o.substring(10,23);
+        mytext.setText(text);
+    }
 }
